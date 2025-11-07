@@ -13,7 +13,10 @@ export class Api {
   deleteCliente(id: string) { return this.http.delete(`/api/clientes/${id}`); }
 
   // Medidores
-  getMedidores() { return this.http.get<any[]>('/api/medidores'); }
+  getMedidores(params?: { cliente_id?: string | number }) {
+  return this.http.get<any[]>('/api/medidores', { params: params as any });
+}
+
   getMedidor(id: string) { return this.http.get<any>(`/api/medidores/${id}`); }
   createMedidor(data: any) { return this.http.post<any>('/api/medidores', data); }
   updateMedidor(id: string, data: any) { return this.http.put<any>(`/api/medidores/${id}`, data); }
