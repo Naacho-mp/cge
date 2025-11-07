@@ -1,0 +1,36 @@
+
+.home-container{
+  background-color: white;
+  min-height: 100vh;
+  width: 100%;
+  color: black;
+  display: flex;
+  flex-direction: column;
+}
+
+.tabs{
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  justify-content: center;
+
+  a{
+    text-align: center;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    background-color: #f6f6f6;
+    text-decoration: none;
+    color: #494747;
+
+    &.active{
+      background-color: #fff;
+      border-color: #8e8b8b;
+      font-weight: bold;
+
+    }
+  }
+}
+.panel {
+  flex: 1; /* hace que crezca ocupando el resto del espacio */
+  padding: 1rem;
+}
