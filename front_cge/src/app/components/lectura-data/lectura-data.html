@@ -1,30 +1,41 @@
-<form class="row g-3">
+<form class="row g-3" [formGroup]="form" (ngSubmit)="guardar()">
+  <h1>{{ esEdicion ? 'Editar Lectura' : 'Registrar Lectura' }}</h1>
+
   <div class="col-md-6">
-    <label for="rutCliente" class="form-label">RUT</label>
-    <input type="text" class="form-control" id="rutCliente" placeholder="11.111.111-1">
+    <label for="idMedidor" class="form-label">Medidor</label>
+    <input id="idMedidor" type="text" class="form-control"
+           formControlName="id_medidor" required />
   </div>
+
+  <div class="col-md-3">
+    <label for="anio" class="form-label">Año</label>
+    <input id="anio" type="number" class="form-control"
+           formControlName="anio" min="2000" max="2100" required />
+  </div>
+
+  <div class="col-md-3">
+    <label for="mes" class="form-label">Mes</label>
+    <input id="mes" type="number" class="form-control"
+           formControlName="mes" min="1" max="12" required />
+  </div>
+
   <div class="col-md-6">
-    <label for="nombreCliente" class="form-label">Nombre/Razon</label>
-    <input type="text" class="form-control" id="nombreCliente" placeholder="Juan Mecanico">
+    <label for="lectura" class="form-label">Lectura (kWh)</label>
+    <input id="lectura" type="number" class="form-control"
+           formControlName="lectura_kwh" min="0" required />
   </div>
-  <div class="col-6">
-    <label for="emailCliente" class="form-label">Email</label>
-    <input type="email" class="form-control" id="emailCliente">
+
+  <div class="col-md-12">
+    <label for="obs" class="form-label">Observación</label>
+    <textarea id="obs" class="form-control" rows="2"
+              formControlName="observacion"
+              placeholder="Ej: lectura manual"></textarea>
   </div>
-  <div class="col-6">
-    <label for="telefonoCliente" class="form-label">Telefono</label>
-    <input type="text" class="form-control" id="inputAddress" placeholder="+569 12345678">
-  </div>
-  <div class="col-6">
-    <label for="direccionCliente" class="form-label">Direccion Facturacion</label>
-    <input type="text" class="form-control" id="direccionCliente" placeholder="Calle siempre alegre">
-  </div>
-  <div class="col-6">
-    <label for="estadoCliente" class="form-label">Estado</label>
-    <input type="text" class="form-control" id="estadoCliente" placeholder="activo/inactivo">
-  </div>
-  <div class="col-12">
-    <button type="submit" class="btn btn-primary">Crear Cliente</button>
+
+  <div class="col-12 text-center mt-2">
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+      {{ esEdicion ? '💾 Guardar Cambios' : '➕ Registrar Lectura' }}
+    </button>
   </div>
 </form>
 

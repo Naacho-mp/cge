@@ -1,0 +1,46 @@
+<div class="listado-container">
+  <h2>Listado de Lecturas</h2>
+
+  <div *ngIf="cargando" class="alert alert-info">Cargando lecturas...</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <table class="table table-striped" *ngIf="!cargando && !error && lecturas.length">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>ID Medidor</th>
+        <th>Año</th>
+        <th>Mes</th>
+        <th>Lectura (kWh)</th>
+        <th>Observación</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (l of lecturas; track l.id_lectura) {
+        <tr>
+          <td>{{ l.id_lectura }}</td>
+          <td>{{ l.id_medidor }}</td>
+          <td>{{ l.anio }}</td>
+          <td>{{ l.mes }}</td>
+          <td>{{ l.lectura_kwh }}</td>
+          <td>{{ l.observacion || '—' }}</td>
+          <td>
+            <button class="btn btn-sm btn-warning" [routerLink]="['/inicio/lectura']" [queryParams]="{ id: l.id_lectura }">
+              ✏️ Editar
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="eliminar(l.id_lectura)">🗑️ Eliminar</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div *ngIf="!lecturas.length && !cargando" class="alert alert-secondary">
+    No hay lecturas registradas.
+  </div>
+
+  <div class="text-center mt-3">
+    <button class="btn btn-primary" (click)="nuevo()">➕ Nueva Lectura</button>
+  </div>
+</div>

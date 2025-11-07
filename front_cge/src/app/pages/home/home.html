@@ -1,20 +1,60 @@
 <div class="home-container">
-  <div>
-    <h1>CGE</h1>
+  <header class="home-header">
+    <h1 class="app-title">CGE</h1>
+    <nav class="tabs" role="navigation" aria-label="Secciones">
+      <a
+        routerLink="/inicio/cliente"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        aria-current="page"
+      >
+        Clientes
+      </a>
 
-    <nav class="tabs">
+      <a
+        routerLink="/inicio/listadoCliente"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Listado Clientes
+      </a>
 
-      <a routerLink="cliente" routerLinkActive="active">Clientes</a>
-      <a routerLink="listadoCliente" routerLinkActive="active">Listado Clientes</a>
-      <a routerLink="medidor" routerLinkActive="active">Medidores</a>
-      <a routerLink="listadoMedidor" routerLinkActive="active">Listado Medidores</a>
-      <a routerLink="lectura" routerLinkActive="active">Lecturas</a>
-      <a routerLink="boleta" routerLinkActive="active">Boletas</a>
+      <a
+        routerLink="/inicio/medidor"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Medidores
+      </a>
 
+      <a
+        routerLink="/inicio/listadoMedidor"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Listado Medidores
+      </a>
+
+      <a
+        routerLink="/inicio/lectura"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Lecturas
+      </a>
+<a routerLink="listadoLecturas" routerLinkActive="active">Listado Lecturas</a>
+      <a
+        routerLink="/inicio/boleta"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Boletas
+      </a>
     </nav>
-  </div>
-  <section class="panel">
-    <router-outlet/>
+  </header>
 
-  </section>
+  <main class="panel" role="main">
+    <router-outlet></router-outlet>
+  </main>
 </div>
+

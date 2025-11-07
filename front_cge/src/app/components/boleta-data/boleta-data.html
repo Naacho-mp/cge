@@ -1,40 +1,156 @@
-<table class="table">
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>Cliente</th>
-    <th>año,mes</th>
-    <th>KWH Total</th>
-    <th>Tarifa Base</th>
-    <th>Cargos</th>
-    <th>IVA</th>
-    <th>Total a Pagar</th>
-    <th>Estado</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-  </tr>
-  <tr>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-  </tr>
-  </tbody>
-</table>
+<div class="boleta-wrap">
+  <!-- Mensaje opcional -->
+  <div *ngIf="mensaje" class="alert alert-success text-center">{{ mensaje }}</div>
+
+  <!-- Formulario principal -->
+  <form class="row g-3" [formGroup]="form">
+    <h1>Generar Boleta</h1>
+
+    <!-- 🔹 Selector de Cliente -->
+    <div class="col-md-4">
+      <label class="form-label">Cliente</label>
+      <select class="form-select" formControlName="id_cliente">
+        <option value="">Seleccione un cliente</option>
+        @for (c of clientes; track c.id_cliente) {
+          <option [value]="c.id_cliente">{{ c.nombre_razon }} — {{ c.rut }}</option>
+        }
+      </select>
+      <small class="text-muted">Seleccione un cliente para obtener sus lecturas.</small>
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Año</label>
+      <input type="number" class="form-control" formControlName="anio" />
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Mes</label>
+      <input type="number" class="form-control" formControlName="mes" min="1" max="12" />
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Consumo Total (kWh)</label>
+      <input
+        type="number"
+        class="form-control"
+        formControlName="kwh_total"
+        readonly
+        placeholder="Autocalculado"
+      />
+      <small class="text-muted">Se calcula automáticamente según las lecturas.</small>
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Tarifa Base ($)</label>
+      <input class="form-control" formControlName="tarifa_base" />
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Cargos ($)</label>
+      <input class="form-control" formControlName="cargos" />
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">IVA (19%)</label>
+      <input class="form-control" formControlName="iva" />
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Total a Pagar ($)</label>
+      <input class="form-control fw-bold" formControlName="total_pagar" />
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Estado</label>
+      <input class="form-control" formControlName="estado" />
+    </div>
+
+    <div class="col-md-6 d-flex align-items-end gap-2 mt-3">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="generar()"
+        [disabled]="guardando || form.invalid"
+      >
+        💾 Guardar / Emitir Boleta
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="generarPDF()"
+        [disabled]="form.invalid"
+      >
+        📄 Descargar PDF
+      </button>
+    </div>
+  </form>
+
+  <!-- Vista previa PDF -->
+  <div #boletaPDF id="boletaPDF" class="boleta-preview mt-4">
+    <header class="bp-header">
+      <div class="brand">
+        <div class="logo">CGE</div>
+        <div>
+          <h2>Boleta de Energía</h2>
+          <p>RUT: 76.543.210-0 · contacto@cge.cl</p>
+        </div>
+      </div>
+      <div class="meta">
+        <div><span>Cliente:</span> {{ form.getRawValue().id_cliente || '—' }}</div>
+        <div><span>Periodo:</span> {{ form.getRawValue().mes }}/{{ form.getRawValue().anio }}</div>
+        <div><span>Estado:</span> {{ form.getRawValue().estado }}</div>
+      </div>
+    </header>
+
+    <section class="bp-body">
+      <div class="kv">
+        <div><span>kWh consumidos</span><b>{{ form.getRawValue().kwh_total | number }}</b></div>
+        <div><span>Tarifa por kWh</span><b>${{ TARIFA_KWH | number }}</b></div>
+        <div><span>Cargo Fijo</span><b>${{ form.getRawValue().cargos | number }}</b></div>
+      </div>
+
+      <table class="bp-table">
+        <thead>
+          <tr>
+            <th>Detalle</th>
+            <th class="text-end">Monto ($)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tarifa Base (kWh × ${{ TARIFA_KWH }})</td>
+            <td class="text-end">{{ form.getRawValue().tarifa_base | number }}</td>
+          </tr>
+          <tr>
+            <td>Cargos</td>
+            <td class="text-end">{{ form.getRawValue().cargos | number }}</td>
+          </tr>
+          <tr>
+            <td>IVA (19%)</td>
+            <td class="text-end">{{ form.getRawValue().iva | number }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>Total a Pagar</th>
+            <th class="text-end">${{ form.getRawValue().total_pagar | number }}</th>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="nota">
+        <p>
+          <b>Observación:</b> Documento generado automáticamente por el sistema CGE.
+          Ante dudas o reclamos, comuníquese con soporte técnico.
+        </p>
+      </div>
+    </section>
+
+    <footer class="bp-footer">
+      <p>© {{ form.getRawValue().anio }} · Compañía General de Electricidad</p>
+    </footer>
+  </div>
+</div>
+
 

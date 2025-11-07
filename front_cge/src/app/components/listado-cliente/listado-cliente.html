@@ -1,30 +1,58 @@
-<table class="table">
-  <thead>
-  <tr>
-    <th>RUT</th>
-    <th>Nombre / Razón</th>
-    <th>Email</th>
-    <th>Telefono</th>
-    <th>Direccion Facturación</th>
-    <th>Estado</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-  </tr>
-  <tr>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-    <th>Colocar contenido</th>
-  </tr>
-  </tbody>
-</table>
+<div class="lc-wrap">
+  <div class="lc-card">
+    <h1>Listado de Clientes</h1>
+
+    <!-- Estados -->
+    <div *ngIf="loading" class="alert alert-info text-center">Cargando clientes…</div>
+    <div *ngIf="error" class="alert alert-danger text-center">{{ error }}</div>
+
+    <div class="toolbar">
+      <button class="btn btn-primary" (click)="nuevo()">➕ Nuevo Cliente</button>
+    </div>
+
+    <!-- Tabla -->
+    <div class="table-responsive lc-table-wrap" *ngIf="!loading && !error && clientes.length; else vacio">
+      <table class="table table-sm table-hover align-middle lc-table">
+        <thead>
+          <tr>
+            <th class="col-id">ID</th>
+            <th class="col-rut">RUT</th>
+            <th class="col-nombre">Nombre/Razón</th>
+            <th class="col-email">Email</th>
+            <th class="col-tel">Teléfono</th>
+            <th class="col-dir">Dirección</th>
+            <th class="col-estado">Estado</th>
+            <th class="col-acciones text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of clientes">
+            <td>{{ c.id_cliente }}</td>
+            <td class="mono">{{ c.rut }}</td>
+            <td class="truncate" title="{{ c.nombre_razon }}">{{ c.nombre_razon }}</td>
+            <td class="truncate" title="{{ c.email_contacto }}">{{ c.email_contacto }}</td>
+            <td class="mono">{{ c.telefono }}</td>
+            <td class="truncate" title="{{ c.direccion_facturacion }}">{{ c.direccion_facturacion }}</td>
+            <td>
+              <span class="badge"
+                [class.bg-success]="(c.estado||'').toLowerCase()==='activo'"
+                [class.bg-secondary]="(c.estado||'').toLowerCase()==='inactivo'">
+                {{ c.estado | titlecase }}
+              </span>
+            </td>
+            <td class="text-center">
+              <div class="btn-group btn-group-sm" role="group">
+                <button class="btn btn-outline-primary" title="Editar" (click)="editar(c.id_cliente)">✏️ Editar</button>
+                <button class="btn btn-outline-danger" title="Eliminar" (click)="eliminar(c.id_cliente)">🗑️ Eliminar</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ng-template #vacio>
+      <div class="alert alert-warning text-center m-0">No hay clientes registrados.</div>
+    </ng-template>
+  </div>
+</div>

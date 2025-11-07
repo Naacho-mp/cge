@@ -1,0 +1,91 @@
+/* Wrapper y card */
+.lc-wrap {
+  padding: 24px;
+  background: #f5f7fa;
+  min-height: calc(100vh - 120px);
+  display: grid;
+  place-items: start center;
+}
+.lc-card {
+  width: min(1100px, 100%);
+  background: #fff;
+  border: 1px solid #e6e8ee;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(16,24,40,.06);
+  padding: 20px 20px 8px;
+}
+.lc-card h1{
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 6px 0 14px;
+  color:#1f2937;
+}
+
+/* Toolbar superior */
+.toolbar{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin: 6px 0 12px;
+}
+
+/* Tabla */
+.lc-table-wrap{
+  max-height: 520px;           /* scroll bonito si hay muchos */
+  overflow: auto;
+  border: 1px solid #e6e8ee;
+  border-radius: 12px;
+}
+.lc-table{
+  margin:0;
+  font-size: .95rem;
+  --th-bg:#0d6efd;
+}
+.lc-table thead th{
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--th-bg);
+  color:#fff;
+  border-color: var(--th-bg);
+  text-align: center;
+  font-weight: 600;
+}
+.lc-table tbody tr:hover{
+  background:#f7fbff;
+}
+
+/* Columnas: anchos y comportamiento */
+.col-id{ width:72px; }
+.col-rut{ width:130px; }
+.col-nombre{ width:190px; }
+.col-email{ width:210px; }
+.col-tel{ width:120px; }
+.col-dir{ width:240px; }
+.col-estado{ width:110px; }
+.col-acciones{ width:160px; }
+
+.mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+.truncate{
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Badges más legibles */
+.badge{
+  font-size:.85rem;
+  padding:.45em .6em;
+  border-radius: 999px;
+}
+
+/* Botones */
+.btn-group .btn{
+  border-radius: 8px !important;
+}
+.btn-outline-primary, .btn-outline-danger{
+  background: #fff;
+}
+

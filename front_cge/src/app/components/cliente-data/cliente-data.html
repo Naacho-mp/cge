@@ -1,34 +1,75 @@
-<form class="row g-3" [formGroup]="form">
-  <h1>Crear Cliente</h1>
+<form class="row g-3" [formGroup]="form" (ngSubmit)="guardar()">
+  <h1>{{ esEdicion ? 'Editar Cliente' : 'Registrar Cliente' }}</h1>
 
+  <!-- RUT -->
   <div class="col-md-6">
     <label for="rutCliente" class="form-label">RUT</label>
-    <input type="text" class="form-control" formControlName="rut" id="rutCliente" placeholder="11.111.111-1">
+    <input
+      type="text"
+      class="form-control"
+      id="rutCliente"
+      formControlName="rut"
+      placeholder="11.111.111-1"
+      required
+    />
   </div>
 
+  <!-- Nombre / Razón Social -->
   <div class="col-md-6">
-    <label for="nombreCliente" class="form-label">Nombre/Razon</label>
-    <input type="text" class="form-control" formControlName="nombre_razon" id="nombreCliente" placeholder="Juan Mecanico">
+    <label for="nombreCliente" class="form-label">Nombre / Razón Social</label>
+    <input
+      type="text"
+      class="form-control"
+      id="nombreCliente"
+      formControlName="nombre_razon"
+      placeholder="Ej: Juan Mecánico"
+      required
+    />
   </div>
 
-  <div class="col-6">
+  <!-- Email -->
+  <div class="col-md-6">
     <label for="emailCliente" class="form-label">Email</label>
-    <input type="email" class="form-control" formControlName="email_contacto" id="emailCliente" placeholder="Juan.Mecanico@gmail.com">
+    <input
+      type="email"
+      class="form-control"
+      id="emailCliente"
+      formControlName="email_contacto"
+      placeholder="ejemplo@gmail.com"
+      required
+    />
   </div>
 
-  <div class="col-6">
-    <label for="telefonoCliente" class="form-label">Telefono</label>
-    <input type="text" class="form-control" formControlName="telefono" id="telefonoCliente" placeholder="+569 12345678">
+  <!-- Teléfono -->
+  <div class="col-md-6">
+    <label for="telefonoCliente" class="form-label">Teléfono</label>
+    <input
+      type="text"
+      class="form-control"
+      id="telefonoCliente"
+      formControlName="telefono"
+      placeholder="+56 9 1234 5678"
+      required
+    />
   </div>
 
-  <div class="col-6">
-    <label for="direccionCliente" class="form-label">Direccion Facturacion</label>
-    <input type="text" class="form-control" formControlName="direccion_facturacion" id="direccionCliente" placeholder="Calle siempre alegre">
+  <!-- Dirección de Facturación -->
+  <div class="col-md-12">
+    <label for="direccionCliente" class="form-label">Dirección de Facturación</label>
+    <input
+      type="text"
+      class="form-control"
+      id="direccionCliente"
+      formControlName="direccion_facturacion"
+      placeholder="Calle Siempre Viva 742"
+      required
+    />
   </div>
 
-  <div class="col-6">
+  <!-- Estado -->
+  <div class="col-md-6">
     <label for="estadoCliente" class="form-label">Estado</label>
-    <select class="form-select" formControlName="estado" id="estadoCliente">
+    <select class="form-select" id="estadoCliente" formControlName="estado" required>
       <option value="">Seleccione</option>
       @for (e of estados; track e) {
         <option [value]="e">{{ e }}</option>
@@ -36,7 +77,10 @@
     </select>
   </div>
 
-  <div class="col-12">
-    <button type="submit" class="btn btn-primary">Crear Cliente</button>
+  <!-- Botón Guardar -->
+  <div class="col-12 text-center mt-3">
+    <button type="submit" class="btn btn-primary">
+      {{ esEdicion ? '💾 Guardar Cambios' : '➕ Crear Cliente' }}
+    </button>
   </div>
 </form>
